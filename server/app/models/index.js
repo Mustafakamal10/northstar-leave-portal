@@ -16,13 +16,24 @@ if (dbConfig.dialect === 'sqlite') {
     logging: false
   });
 } else {
-  sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, {
+  const sequelizeOptions = {
     host: dbConfig.host,
     port: dbConfig.port,
     dialect: dbConfig.dialect,
     logging: false,
     pool: dbConfig.pool
-  });
+  };
+
+  if (process.env.DB_SSL === 'true') {
+    sequelizeOptions.dialectOptions = {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    };
+  }
+
+  sequelize = new Sequelize(dbConfig.database, dbConfig.user, dbConfig.password, sequelizeOptions);
 }
 
 const User = require('./user')(sequelize);

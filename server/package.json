@@ -12,7 +12,12 @@
     "db:seed:undo": "npx sequelize-cli db:seed:undo:all",
     "db:setup": "node scripts/setupDb.js"
   },
-  "keywords": ["leave-management", "express", "sequelize", "mysql"],
+  "keywords": [
+    "leave-management",
+    "express",
+    "sequelize",
+    "mysql"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -23,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.0",
     "sequelize": "^6.37.3",
+    "serverless-http": "^4.0.0",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
