@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Mustafa@2026",
+    "database": "northstar_leave_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Mustafa@2026",
+    "database": "northstar_leave_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Mustafa@2026",
+    "database": "northstar_leave_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
