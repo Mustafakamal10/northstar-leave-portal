@@ -1,5 +1,6 @@
 [functions]
   directory = "netlify/functions"
+  external_node_modules = ["mysql2"]
 
 [[redirects]]
   from = "/api/*"

@@ -4,6 +4,7 @@
  */
 
 const { Sequelize } = require('sequelize');
+const mysql2 = require('mysql2');
 const path = require('path');
 const dbConfig = require('../../config/db.config');
 
@@ -20,6 +21,7 @@ if (dbConfig.dialect === 'sqlite') {
     host: dbConfig.host,
     port: dbConfig.port,
     dialect: dbConfig.dialect,
+    dialectModule: mysql2,
     logging: false,
     pool: dbConfig.pool
   };

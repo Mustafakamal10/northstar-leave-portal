@@ -3,6 +3,8 @@
  * Wraps the Express application using serverless-http with cached Sequelize connection.
  */
 
+// Explicitly require mysql2 so Netlify function bundler includes it
+require('mysql2');
 const serverless = require('serverless-http');
 const app = require('../../app');
 const { sequelize } = require('../../app/models');
