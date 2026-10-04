@@ -29,7 +29,7 @@ async function login({ email, password }) {
     throw error;
   }
 
-  const secret = process.env.JWT_SECRET || 'northstar_jwt_super_secret_key_2026';
+ const secret = process.env.JWT_SECRET || '';
   const token = jwt.sign(
     { id: user.id, email: user.email, role: user.role },
     secret,
