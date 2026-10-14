@@ -1,9 +1,3 @@
-/**
- * Database Initialization & Model Associations
- * Initializes Sequelize instance with intelligent fallback from MySQL to SQLite
- * and sets up relationships between User and LeaveRequest models.
- */
-
 const { Sequelize } = require('sequelize');
 const mysql2 = require('mysql2');
 const path = require('path');
@@ -93,7 +87,6 @@ function setupModelsForSequelize(seq) {
   return { User, LeaveRequest };
 }
 
-// Initial default instance
 let activeSequelize = dbConfig.dialect === 'sqlite'
   ? createSqliteSequelize()
   : createMysqlSequelize();
@@ -108,7 +101,6 @@ async function seedDefaultDataIfNeeded(seq) {
 
     const count = await UserModel.count();
     if (count === 0) {
-      console.log('[Database] Empty database detected. Auto-seeding demo users...');
       const adminHash = bcrypt.hashSync('Admin@123', 10);
       const empHash = bcrypt.hashSync('Employee@123', 10);
       const now = new Date();
@@ -150,7 +142,6 @@ async function seedDefaultDataIfNeeded(seq) {
           status: 'pending'
         });
       }
-      console.log('[Database] Auto-seeding completed successfully.');
     }
   } catch (err) {
     console.warn('[Database] Auto-seeding warning:', err.message);
@@ -166,19 +157,16 @@ async function initDatabase() {
 
   if (dbConfig.dialect === 'mysql') {
     try {
-      console.log(`[Database] Attempting connection to MySQL at ${dbConfig.host}:${dbConfig.port}...`);
       await activeSequelize.authenticate();
       await activeSequelize.sync();
       await seedDefaultDataIfNeeded(activeSequelize);
       isInitialized = true;
-      console.log('[Database] MySQL connection established successfully.');
       return activeSequelize;
     } catch (mysqlErr) {
-      console.warn(`[Database] MySQL connection failed (${mysqlErr.message}). Gracefully falling back to SQLite.`);
+      console.warn(`[Database] MySQL connection failed (${mysqlErr.message}). Falling back to SQLite.`);
     }
   }
 
-  // Fallback to SQLite
   const sqliteInstance = createSqliteSequelize();
   setupModelsForSequelize(sqliteInstance);
   activeSequelize = sqliteInstance;
@@ -187,7 +175,6 @@ async function initDatabase() {
   await activeSequelize.sync();
   await seedDefaultDataIfNeeded(activeSequelize);
   isInitialized = true;
-  console.log('[Database] SQLite fallback active and ready.');
   return activeSequelize;
 }
 

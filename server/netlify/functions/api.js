@@ -1,16 +1,7 @@
-/**
- * Netlify Serverless Function Entry Point
- * Wraps the Express application using serverless-http with cached Sequelize connection
- * and comprehensive CORS handling.
- */
-
-// Explicitly require dependencies so Netlify function bundler includes them
 require('mysql2');
 try {
   require('sqlite3');
-} catch (e) {
-  // sqlite3 is optional if MySQL is active
-}
+} catch (e) {}
 
 const serverless = require('serverless-http');
 const app = require('../../app');
@@ -26,10 +17,8 @@ let isConnected = false;
 const handler = serverless(app);
 
 module.exports.handler = async (event, context) => {
-  // Prevent Lambda from waiting for lingering database pool connections
   context.callbackWaitsForEmptyEventLoop = false;
 
-  // Handle CORS preflight OPTIONS request immediately
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -38,7 +27,6 @@ module.exports.handler = async (event, context) => {
     };
   }
 
-  // Initialize and cache database connection on cold start
   if (!isConnected) {
     try {
       if (typeof initDatabase === 'function') {
@@ -66,7 +54,6 @@ module.exports.handler = async (event, context) => {
 
   const response = await handler(event, context);
 
-  // Guarantee CORS headers on all responses
   response.headers = {
     ...corsHeaders,
     ...(response.headers || {})
