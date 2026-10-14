@@ -20,7 +20,7 @@ async function verifyToken(req, res, next) {
       return res.status(401).json({ message: 'Unauthorized: Invalid token format' });
     }
 
-    const secret = process.env.JWT_SECRET || '';
+    const secret = process.env.JWT_SECRET || 'northstar_leave_portal_jwt_secret_key_2026';
     const decoded = jwt.verify(token, secret);
 
     const user = await User.findByPk(decoded.id, {

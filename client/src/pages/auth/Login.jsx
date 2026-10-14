@@ -64,7 +64,19 @@ export function Login() {
         navigate(ROUTES.EMPLOYEE_DASHBOARD);
       }
     } catch (err) {
-      const message = err.response?.data?.message || 'Invalid email or password';
+      console.error('Login error:', err);
+      let message = 'Invalid email or password';
+      if (err.response?.status === 401) {
+        message = err.response?.data?.message || 'Invalid email or password';
+      } else if (err.response?.data?.message) {
+        message = err.response.data.message;
+      } else if (err.response?.data?.error) {
+        message = err.response.data.error;
+      } else if (err.response?.status >= 500) {
+        message = 'Server encountered an issue. Please try again in a moment.';
+      } else if (!err.response || err.code === 'ERR_NETWORK') {
+        message = 'Cannot connect to backend server. Please verify your connection.';
+      }
       setAuthError(message);
     }
   };

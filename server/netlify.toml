@@ -1,6 +1,7 @@
 [functions]
   directory = "netlify/functions"
-  external_node_modules = ["mysql2"]
+  external_node_modules = ["mysql2", "sqlite3"]
+  included_files = ["northstar_leave_db.sqlite", "seeders/**"]
 
 [[redirects]]
   from = "/api/*"

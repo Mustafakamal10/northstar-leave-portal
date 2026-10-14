@@ -6,8 +6,12 @@
 import axios from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 
+const defaultBaseUrl = import.meta.env.PROD
+  ? 'https://stirring-bavarois-aa22c4.netlify.app/api'
+  : 'http://localhost:5000/api';
+
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || defaultBaseUrl,
   headers: {
     'Content-Type': 'application/json'
   }
